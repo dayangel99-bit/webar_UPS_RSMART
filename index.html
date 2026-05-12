@@ -1,25 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>UPS WebAR Demo</title>
 
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
 
   <style>
     body {
       margin: 0;
-      background: #111;
-      font-family: Arial, sans-serif;
       overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #000;
     }
 
     model-viewer {
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(to bottom, #1a1a1a, #000000);
+
+      background:
+      radial-gradient(circle at center,
+      #e6e7e5 0%,
+      #e2e5e8 35%,
+      #cfd6df 60%,
+      #aab5c7 82%,
+      #5b6a82 100%);
     }
 
     .titulo {
@@ -51,20 +60,29 @@
 
   <model-viewer
     src="8RA_UPS_RSMAT_demo.glb"
+
     ar
-    ar-modes="scene-viewer webxr quick-look"
+    ar-modes="webxr scene-viewer quick-look"
+
+    ar-placement="floor"
+    ar-scale="fixed"
+
     camera-controls
     auto-rotate
-    shadow-intensity="1"
+
+    shadow-intensity="1.2"
+    shadow-softness="1"
+
     exposure="1"
     environment-image="neutral"
     tone-mapping="neutral"
-    style="background: radial-gradient(circle at center,
-#e6e7e5 0%,
-#e2e5e8 35%,
-#cfd6df 60%,
-#aab5c7 82%,
-#5b6a82 100%);">
+
+    interaction-prompt="auto"
+
+    camera-orbit="45deg 75deg 2.5m"
+    min-camera-orbit="auto auto 1m"
+    max-camera-orbit="auto auto 5m">
+
   </model-viewer>
 
 </body>
