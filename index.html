@@ -58,32 +58,31 @@
     <p>Experiencia WebAR</p>
   </div>
 
-  <model-viewer
+<model-viewer
     src="8RA_UPS_RSMAT_demo.glb"
 
     ar
-    ar-modes="webxr scene-viewer quick-look"
-
-    ar-placement="floor"
-    ar-scale="fixed"
+    ar-modes="scene-viewer webxr quick-look"
 
     camera-controls
     auto-rotate
 
-    shadow-intensity="1.2"
-    shadow-softness="1"
-
+    shadow-intensity="1"
     exposure="1"
+
     environment-image="neutral"
     tone-mapping="neutral"
 
-    interaction-prompt="auto"
+    ar-scale="fixed"
+    ios-src="8RA_UPS_RSMAT_demo.glb"
 
-    camera-orbit="45deg 75deg 2.5m"
-    min-camera-orbit="auto auto 1m"
-    max-camera-orbit="auto auto 5m">
-
-  </model-viewer>
+    style="background: radial-gradient(circle at center,
+#e6e7e5 0%,
+#e2e5e8 35%,
+#cfd6df 60%,
+#aab5c7 82%,
+#5b6a82 100%);">
+</model-viewer>
 
 </body>
 </html>
