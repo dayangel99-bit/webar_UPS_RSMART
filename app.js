@@ -13,7 +13,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.set(0, 1, 5);
+camera.position.set(0, 0, 5);
 
 const renderer = new THREE.WebGLRenderer({
   antialias: true
@@ -42,12 +42,12 @@ loader.load(
 
     const model = gltf.scene;
 
-    model.scale.set(1, 1, 1);
+    model.scale.set(0.5, 0.5, 0.5);
 
-    model.position.set(0, -1, 0);
+    model.position.set(0, 0, 0);
 
     scene.add(model);
-
+console.log("Modelo cargado correctamente");
   },
 
   undefined,
