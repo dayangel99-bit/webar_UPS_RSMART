@@ -34,7 +34,7 @@ scene.add(dirLight);
 const loader = new GLTFLoader();
 
 loader.load(
-  './models/8RA_UPS_RSMAT_demo.glb',
+  'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF-Binary/DamagedHelmet.glb',
 
   (gltf) => {
 
