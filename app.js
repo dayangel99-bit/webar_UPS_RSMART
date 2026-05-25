@@ -1,47 +1,109 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-console.log("THREE IMPORTADO");
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+
+console.log("APP INICIADA");
 
 const scene = new THREE.Scene();
 
-scene.background = new THREE.Color(0xff0000);
+scene.background = new THREE.Color(0xe6e7e5);
 
 const camera = new THREE.PerspectiveCamera(
-  75,
+  45,
   window.innerWidth / window.innerHeight,
   0.1,
   1000
 );
 
-const renderer = new THREE.WebGLRenderer();
+camera.position.set(0, 1, 6);
+
+const renderer = new THREE.WebGLRenderer({
+  antialias: true
+});
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+renderer.setPixelRatio(window.devicePixelRatio);
+
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry();
+console.log("RENDER OK");
 
-const material = new THREE.MeshBasicMaterial({
-  color: 0x00ff00
-});
+const hemiLight = new THREE.HemisphereLight(
+  0xffffff,
+  0x444444,
+  3
+);
 
-const cube = new THREE.Mesh(geometry, material);
+scene.add(hemiLight);
 
-scene.add(cube);
+const dirLight = new THREE.DirectionalLight(
+  0xffffff,
+  3
+);
 
-camera.position.z = 5;
+dirLight.position.set(5, 10, 7);
 
-function animate() {
+scene.add(dirLight);
 
-  requestAnimationFrame(animate);
+const loader = new GLTFLoader();
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+loader.load(
 
-  renderer.render(scene, camera);
+  'models/8RA_UPS_RSMAT_demo.glb',
+
+  function (gltf) {
+
+    const model = gltf.scene;
+
+    model.scale.set(2, 2, 2);
+
+    model.position.set(0, -1, 0);
+
+    scene.add(model);
+
+    console.log("MODELO CARGADO");
+
+    animate(model);
+
+  },
+
+  function (xhr) {
+
+    console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+
+  },
+
+  function (error) {
+
+    console.error('ERROR GLB:', error);
+
+  }
+
+);
+
+function animate(model) {
+
+  function renderLoop() {
+
+    requestAnimationFrame(renderLoop);
+
+    model.rotation.y += 0.003;
+
+    renderer.render(scene, camera);
+
+  }
+
+  renderLoop();
 
 }
 
-animate();
+window.addEventListener('resize', () => {
 
-console.log("ESCENA FUNCIONANDO");
+  camera.aspect = window.innerWidth / window.innerHeight;
+
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+});
