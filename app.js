@@ -46,7 +46,7 @@ const loader = new GLTFLoader();
 
 loader.load(
 
-  './models/8RA_UPS_RSMAT_demo.glb',
+  '/models/8RA_UPS_RSMAT_demo.glb',
 
   function (gltf) {
 
