@@ -3,6 +3,7 @@ import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
+console.log("APP INICIADA");
 
 scene.background = null;
 
@@ -24,6 +25,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
 document.body.appendChild(renderer.domElement);
+
+console.log("RENDER OK");
 
 const hemiLight = new THREE.HemisphereLight(
   0xffffff,
