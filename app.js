@@ -4,7 +4,7 @@ import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders
 
 const scene = new THREE.Scene();
 
-scene.background = new THREE.Color(0xe6e7e5);
+scene.background = null;
 
 const camera = new THREE.PerspectiveCamera(
   45,
