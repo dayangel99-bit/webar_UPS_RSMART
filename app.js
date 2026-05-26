@@ -2,6 +2,8 @@ import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
 import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
+import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+
 const scene = new THREE.Scene();
 
 scene.fog = new THREE.Fog(0xdfe4ec, 12, 30);
@@ -29,21 +31,34 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 document.body.appendChild(renderer.domElement);
 
+const controls = new OrbitControls(
+  camera,
+  renderer.domElement
+);
+
+controls.enableDamping = true;
+
+controls.dampingFactor = 0.05;
+
+controls.enablePan = false;
+
+controls.minDistance = 5;
+controls.maxDistance = 15;
 
 
 // LUCES
 
 const hemiLight = new THREE.HemisphereLight(
   0xffffff,
-  0x444444,
-  3
+  0xdfe6f5,
+  4.5
 );
 
 scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(
   0xffffff,
-  3
+  4
 );
 
 dirLight.position.set(5, 10, 7);
@@ -84,13 +99,13 @@ scene.add(frontLight);
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
   new THREE.ShadowMaterial({
-opacity: 0.10
-  })
+opacity: 0.045  })
 );
 
 floor.rotation.x = -Math.PI / 2;
 
-floor.position.y = -2.3;
+floor.position.y = -2.15;
+dirLight.shadow.radius = 12;
 dirLight.shadow.radius = 8;
 dirLight.shadow.blurSamples = 25;
 floor.receiveShadow = true;
@@ -115,8 +130,17 @@ loader.load(
 
     modelo = model;
 
-    model.scale.set(20, 20, 20);
+const isMobile = window.innerWidth < 768;
 
+if (isMobile) {
+
+  model.scale.set(14, 14, 14);
+
+} else {
+
+  model.scale.set(20, 20, 20);
+
+}
     const box = new THREE.Box3().setFromObject(model);
 
     const center = box.getCenter(new THREE.Vector3());
@@ -170,10 +194,12 @@ function animate() {
 
   if (modelo) {
 
-    modelo.rotation.y += 0.003;
+    // modelo.rotation.y += 0.003;
 
   }
-
+  
+controls.update();
+  
   renderer.render(scene, camera);
 
 }
