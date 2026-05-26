@@ -4,7 +4,7 @@ import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders
 
 const scene = new THREE.Scene();
 
-scene.fog = new THREE.Fog(0xe2e5e8, 10, 25);
+scene.fog = new THREE.Fog(0xdfe4ec, 12, 30);
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -68,7 +68,15 @@ const blueLight = new THREE.PointLight(
 blueLight.position.set(-4, 3, 4);
 
 scene.add(blueLight);
+const frontLight = new THREE.PointLight(
+  0xffffff,
+  1.5,
+  20
+);
 
+frontLight.position.set(0, 2, 6);
+
+scene.add(frontLight);
 
 
 // PISO
@@ -76,14 +84,15 @@ scene.add(blueLight);
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
   new THREE.ShadowMaterial({
-    opacity: 0.18
+opacity: 0.10
   })
 );
 
 floor.rotation.x = -Math.PI / 2;
 
-floor.position.y = -2.7;
-
+floor.position.y = -2.3;
+dirLight.shadow.radius = 8;
+dirLight.shadow.blurSamples = 25;
 floor.receiveShadow = true;
 
 scene.add(floor);
