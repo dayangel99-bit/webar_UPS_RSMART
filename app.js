@@ -11,8 +11,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.set(0, 0, 8);
-
+camera.position.set(0, 0, 10);
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
   alpha: true
@@ -48,9 +47,8 @@ loader.load(
 
     const model = gltf.scene;
 
-    model.scale.set(4, 4, 4);
-    model.position.set(0, -3, 0);
-
+model.scale.set(20, 20, 20);
+    model.position.set(0, -1.5, 0);
     scene.add(model);
 
     console.log("MODELO CARGADO");
