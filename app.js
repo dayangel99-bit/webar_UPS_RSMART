@@ -3,6 +3,11 @@ import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
 import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+controls.addEventListener('start', () => {
+
+  autoRotate = false;
+
+});
 
 const scene = new THREE.Scene();
 
@@ -28,6 +33,11 @@ renderer.setPixelRatio(window.devicePixelRatio);
 
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+renderer.toneMappingExposure = 1.4;
+
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 document.body.appendChild(renderer.domElement);
 
@@ -83,6 +93,15 @@ const blueLight = new THREE.PointLight(
 blueLight.position.set(-4, 3, 4);
 
 scene.add(blueLight);
+const rimLight = new THREE.PointLight(
+  0xffffff,
+  2,
+  30
+);
+
+rimLight.position.set(0, 5, -8);
+
+scene.add(rimLight);
 const frontLight = new THREE.PointLight(
   0xffffff,
   1.5,
@@ -119,6 +138,7 @@ scene.add(floor);
 const loader = new GLTFLoader();
 
 let modelo;
+let autoRotate = true;
 
 loader.load(
 
@@ -158,6 +178,13 @@ if (isMobile) {
     model.traverse((node) => {
 
       if (node.isMesh) {
+        if (node.material) {
+
+  node.material.roughness = 0.35;
+
+  node.material.metalness = 0.6;
+
+
 
         node.castShadow = true;
         node.receiveShadow = true;
@@ -194,8 +221,11 @@ function animate() {
 
   if (modelo) {
 
-    // modelo.rotation.y += 0.003;
+if (modelo && autoRotate) {
 
+  modelo.rotation.y += 0.003;
+
+}
   }
   
 controls.update();
