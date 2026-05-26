@@ -57,7 +57,7 @@ model.position.x -= center.x;
 model.position.y -= center.y;
 model.position.z -= center.z;
 
-model.position.y = -1;
+model.position.y = -0.3;
     scene.add(model);
 
     console.log("MODELO CARGADO");
