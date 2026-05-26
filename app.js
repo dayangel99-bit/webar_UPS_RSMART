@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0xe2e5e8, 10, 25);
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -16,6 +17,8 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
   alpha: true
 });
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -34,18 +37,63 @@ const dirLight = new THREE.DirectionalLight(
   3
 );
 
+const dirLight = new THREE.DirectionalLight(
+  0xffffff,
+  3
+);
+
 dirLight.position.set(5, 10, 7);
+
+dirLight.castShadow = true;
+
+dirLight.shadow.mapSize.width = 2048;
+dirLight.shadow.mapSize.height = 2048;
 
 scene.add(dirLight);
 
-const loader = new GLTFLoader();
+const blueLight = new THREE.PointLight(
+  0x4f8cff,
+  2,
+  20
+);
 
+blueLight.position.set(-4, 3, 4);
+
+scene.add(blueLight);
+
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(20, 20),
+  new THREE.ShadowMaterial({
+    opacity: 0.18
+  })
+);
+
+floor.rotation.x = -Math.PI / 2;
+
+floor.position.y = -2.7;
+
+floor.receiveShadow = true;
+
+scene.add(floor);
+
+const loader = new GLTFLoader();
+model.traverse((node) => {
+
+  if (node.isMesh) {
+
+    node.castShadow = true;
+    node.receiveShadow = true;
+
+  }
+
+});
 loader.load(
   './models/8RA_UPS_RSMAT_demo.glb',
 
   function (gltf) {
 
     const model = gltf.scene;
+    modelo = model;
 
 model.scale.set(20, 20, 20);
 
@@ -72,11 +120,15 @@ model.position.y = -0.3;
 
   }
 );
-
+let modelo;
 function animate() {
 
   requestAnimationFrame(animate);
+if (modelo) {
 
+  modelo.rotation.y += 0.003;
+
+}
   renderer.render(scene, camera);
 
 }
