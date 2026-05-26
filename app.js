@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const scene = new THREE.Scene();
+
 scene.fog = new THREE.Fog(0xe2e5e8, 10, 25);
 
 const camera = new THREE.PerspectiveCamera(
@@ -13,16 +14,24 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.set(0, 0, 10);
+
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
   alpha: true
 });
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+renderer.setPixelRatio(window.devicePixelRatio);
+
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 document.body.appendChild(renderer.domElement);
+
+
+
+// LUCES
 
 const hemiLight = new THREE.HemisphereLight(
   0xffffff,
@@ -31,11 +40,6 @@ const hemiLight = new THREE.HemisphereLight(
 );
 
 scene.add(hemiLight);
-
-const dirLight = new THREE.DirectionalLight(
-  0xffffff,
-  3
-);
 
 const dirLight = new THREE.DirectionalLight(
   0xffffff,
@@ -51,6 +55,10 @@ dirLight.shadow.mapSize.height = 2048;
 
 scene.add(dirLight);
 
+
+
+// LUZ AZUL
+
 const blueLight = new THREE.PointLight(
   0x4f8cff,
   2,
@@ -60,6 +68,10 @@ const blueLight = new THREE.PointLight(
 blueLight.position.set(-4, 3, 4);
 
 scene.add(blueLight);
+
+
+
+// PISO
 
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
@@ -76,36 +88,53 @@ floor.receiveShadow = true;
 
 scene.add(floor);
 
+
+
+// LOADER
+
 const loader = new GLTFLoader();
-model.traverse((node) => {
 
-  if (node.isMesh) {
+let modelo;
 
-    node.castShadow = true;
-    node.receiveShadow = true;
-
-  }
-
-});
 loader.load(
+
   './models/8RA_UPS_RSMAT_demo.glb',
 
   function (gltf) {
 
     const model = gltf.scene;
+
     modelo = model;
 
-model.scale.set(20, 20, 20);
+    model.scale.set(20, 20, 20);
 
-const box = new THREE.Box3().setFromObject(model);
+    const box = new THREE.Box3().setFromObject(model);
 
-const center = box.getCenter(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
 
-model.position.x -= center.x;
-model.position.y -= center.y;
-model.position.z -= center.z;
+    model.position.x -= center.x;
+    model.position.y -= center.y;
+    model.position.z -= center.z;
 
-model.position.y = -0.3;
+    model.position.y = -0.3;
+
+
+
+    // SOMBRAS
+
+    model.traverse((node) => {
+
+      if (node.isMesh) {
+
+        node.castShadow = true;
+        node.receiveShadow = true;
+
+      }
+
+    });
+
+
+
     scene.add(model);
 
     console.log("MODELO CARGADO");
@@ -119,21 +148,32 @@ model.position.y = -0.3;
     console.error(error);
 
   }
+
 );
-let modelo;
+
+
+
+// ANIMACIÓN
+
 function animate() {
 
   requestAnimationFrame(animate);
-if (modelo) {
 
-  modelo.rotation.y += 0.003;
+  if (modelo) {
 
-}
+    modelo.rotation.y += 0.003;
+
+  }
+
   renderer.render(scene, camera);
 
 }
 
 animate();
+
+
+
+// RESPONSIVE
 
 window.addEventListener('resize', () => {
 
