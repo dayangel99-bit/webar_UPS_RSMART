@@ -3,15 +3,18 @@ import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
 import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-controls.addEventListener('start', () => {
 
-  autoRotate = false;
 
-});
+
+// ESCENA
 
 const scene = new THREE.Scene();
 
 scene.fog = new THREE.Fog(0xdfe4ec, 12, 30);
+
+
+
+// CÁMARA
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -21,6 +24,10 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.set(0, 0, 10);
+
+
+
+// RENDER
 
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
@@ -32,7 +39,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
 renderer.shadowMap.enabled = true;
+
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
 renderer.toneMappingExposure = 1.4;
@@ -40,6 +49,10 @@ renderer.toneMappingExposure = 1.4;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 document.body.appendChild(renderer.domElement);
+
+
+
+// CONTROLES
 
 const controls = new OrbitControls(
   camera,
@@ -53,7 +66,21 @@ controls.dampingFactor = 0.05;
 controls.enablePan = false;
 
 controls.minDistance = 5;
+
 controls.maxDistance = 15;
+
+
+
+// AUTOROTACIÓN
+
+let autoRotate = true;
+
+controls.addEventListener('start', () => {
+
+  autoRotate = false;
+
+});
+
 
 
 // LUCES
@@ -66,6 +93,8 @@ const hemiLight = new THREE.HemisphereLight(
 
 scene.add(hemiLight);
 
+
+
 const dirLight = new THREE.DirectionalLight(
   0xffffff,
   4
@@ -76,7 +105,12 @@ dirLight.position.set(5, 10, 7);
 dirLight.castShadow = true;
 
 dirLight.shadow.mapSize.width = 2048;
+
 dirLight.shadow.mapSize.height = 2048;
+
+dirLight.shadow.radius = 12;
+
+dirLight.shadow.blurSamples = 25;
 
 scene.add(dirLight);
 
@@ -93,6 +127,11 @@ const blueLight = new THREE.PointLight(
 blueLight.position.set(-4, 3, 4);
 
 scene.add(blueLight);
+
+
+
+// LUZ TRASERA
+
 const rimLight = new THREE.PointLight(
   0xffffff,
   2,
@@ -102,6 +141,11 @@ const rimLight = new THREE.PointLight(
 rimLight.position.set(0, 5, -8);
 
 scene.add(rimLight);
+
+
+
+// LUZ FRONTAL
+
 const frontLight = new THREE.PointLight(
   0xffffff,
   1.5,
@@ -113,20 +157,20 @@ frontLight.position.set(0, 2, 6);
 scene.add(frontLight);
 
 
-// PISO
+
+// PISO / SOMBRA
 
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
   new THREE.ShadowMaterial({
-opacity: 0.045  })
+    opacity: 0.045
+  })
 );
 
 floor.rotation.x = -Math.PI / 2;
 
 floor.position.y = -2.15;
-dirLight.shadow.radius = 12;
-dirLight.shadow.radius = 8;
-dirLight.shadow.blurSamples = 25;
+
 floor.receiveShadow = true;
 
 scene.add(floor);
@@ -138,7 +182,6 @@ scene.add(floor);
 const loader = new GLTFLoader();
 
 let modelo;
-let autoRotate = true;
 
 loader.load(
 
@@ -150,43 +193,60 @@ loader.load(
 
     modelo = model;
 
-const isMobile = window.innerWidth < 768;
 
-if (isMobile) {
 
-  model.scale.set(14, 14, 14);
+    // ESCALA RESPONSIVE
 
-} else {
+    const isMobile = window.innerWidth < 768;
 
-  model.scale.set(20, 20, 20);
+    if (isMobile) {
 
-}
+      model.scale.set(14, 14, 14);
+
+    } else {
+
+      model.scale.set(20, 20, 20);
+
+    }
+
+
+
+    // CENTRAR MODELO
+
     const box = new THREE.Box3().setFromObject(model);
 
     const center = box.getCenter(new THREE.Vector3());
 
     model.position.x -= center.x;
+
     model.position.y -= center.y;
+
     model.position.z -= center.z;
+
+
+
+    // ALTURA
 
     model.position.y = -0.3;
 
 
 
-    // SOMBRAS
+    // MATERIALES + SOMBRAS
 
     model.traverse((node) => {
 
       if (node.isMesh) {
+
         if (node.material) {
 
-  node.material.roughness = 0.35;
+          node.material.roughness = 0.35;
 
-  node.material.metalness = 0.6;
+          node.material.metalness = 0.6;
 
-
+        }
 
         node.castShadow = true;
+
         node.receiveShadow = true;
 
       }
@@ -219,17 +279,18 @@ function animate() {
 
   requestAnimationFrame(animate);
 
-  if (modelo) {
 
-if (modelo && autoRotate) {
 
-  modelo.rotation.y += 0.003;
+  if (modelo && autoRotate) {
 
-}
+    modelo.rotation.y += 0.003;
+
   }
-  
-controls.update();
-  
+
+
+
+  controls.update();
+
   renderer.render(scene, camera);
 
 }
