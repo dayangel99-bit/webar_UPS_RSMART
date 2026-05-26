@@ -48,7 +48,16 @@ loader.load(
     const model = gltf.scene;
 
 model.scale.set(20, 20, 20);
-    model.position.set(0, -1.5, 0);
+
+const box = new THREE.Box3().setFromObject(model);
+
+const center = box.getCenter(new THREE.Vector3());
+
+model.position.x -= center.x;
+model.position.y -= center.y;
+model.position.z -= center.z;
+
+model.position.y = -1;
     scene.add(model);
 
     console.log("MODELO CARGADO");
