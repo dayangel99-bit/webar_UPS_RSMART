@@ -50,7 +50,26 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 document.body.appendChild(renderer.domElement);
 
+// HDRI ENVIRONMENT
 
+const pmremGenerator = new THREE.PMREMGenerator(renderer);
+pmremGenerator.compileEquirectangularShader();
+
+new RGBELoader()
+  .load('./hdri/studio.hdr', (texture) => {
+
+    const envMap = pmremGenerator
+      .fromEquirectangular(texture)
+      .texture;
+
+    scene.environment = envMap;
+
+    texture.dispose();
+    pmremGenerator.dispose();
+
+    console.log("HDRI CARGADO");
+
+  });
 
 // CONTROLES
 
