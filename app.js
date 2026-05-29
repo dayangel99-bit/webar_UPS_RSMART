@@ -257,6 +257,11 @@ loader.load(
 
         if (node.material) {
 
+          console.log(
+  node.name,
+  node.material?.name
+);
+
           node.material.roughness = 0.35;
 
           node.material.metalness = 0.6;
