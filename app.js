@@ -43,7 +43,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-renderer.toneMappingExposure = 1.6;
+renderer.toneMappingExposure = 1.8;
 
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
