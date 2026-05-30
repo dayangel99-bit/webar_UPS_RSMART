@@ -43,7 +43,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-renderer.toneMappingExposure = 1.8;
+renderer.toneMappingExposure = 1.3;
 
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -106,7 +106,7 @@ controls.addEventListener('start', () => {
 const hemiLight = new THREE.HemisphereLight(
   0xffffff,
   0xdfe6f5,
-  4.5
+  0.6
 );
 
 scene.add(hemiLight);
@@ -115,7 +115,7 @@ scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(
   0xffffff,
-  4
+  1.5
 );
 
 dirLight.position.set(5, 10, 7);
@@ -138,7 +138,7 @@ scene.add(dirLight);
 
 const blueLight = new THREE.PointLight(
   0x4f8cff,
-  2,
+  0.3,
   20
 );
 
@@ -152,7 +152,7 @@ scene.add(blueLight);
 
 const rimLight = new THREE.PointLight(
   0xffffff,
-  2,
+  0.7,
   30
 );
 
@@ -166,7 +166,7 @@ scene.add(rimLight);
 
 const frontLight = new THREE.PointLight(
   0xffffff,
-  1.5,
+  0.5,
   20
 );
 
