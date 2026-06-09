@@ -257,10 +257,21 @@ loader.load(
 
         if (node.material) {
 
-          console.log(
-  node.name,
-  node.material?.name
-);
+  console.log(
+    node.name,
+    node.material?.name
+  );
+
+  // FRENTE BARNIZADO
+
+  if (node.material.name === "Material") {
+
+    node.material.roughness = 0.12;
+    node.material.metalness = 0.02;
+
+  }
+
+}
 
 
         }
