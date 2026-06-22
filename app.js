@@ -62,6 +62,7 @@ new RGBELoader()
       .texture;
 
     scene.environment = envMap;
+    scene.environmentIntensity = 0.45;
 
     texture.dispose();
     pmremGenerator.dispose();
