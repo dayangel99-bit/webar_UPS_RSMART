@@ -248,42 +248,30 @@ loader.load(
     model.position.y = -0.3;
 
 
+// MATERIALES + SOMBRAS
 
-    // MATERIALES + SOMBRAS
+model.traverse((node) => {
 
-    model.traverse((node) => {
+  if (node.isMesh) {
 
-      if (node.isMesh) {
+    console.log(
+      node.name,
+      node.material?.name
+    );
 
-        if (node.material) {
+    if (node.material?.name === "Material") {
 
-  console.log(
-    node.name,
-    node.material?.name
-  );
+      node.material.roughness = 0.12;
+      node.material.metalness = 0.02;
 
-  // FRENTE BARNIZADO
+    }
 
-  if (node.material.name === "Material") {
-
-    node.material.roughness = 0.12;
-    node.material.metalness = 0.02;
+    node.castShadow = true;
+    node.receiveShadow = true;
 
   }
 
-}
-
-
-        }
-
-        node.castShadow = true;
-
-        node.receiveShadow = true;
-
-      }
-
-    });
-
+});
 
 
     scene.add(model);
