@@ -261,10 +261,11 @@ model.traverse((node) => {
     );
 
     if (node.material?.name === "Material") {
+      node.material.roughness = 0.03;
+node.material.metalness = 0.0;
+node.material.envMapIntensity = 1.3;
 
-      node.material.roughness = 0.25;
-      node.material.metalness = 0.02;
-
+      
     }
 
     node.castShadow = true;
